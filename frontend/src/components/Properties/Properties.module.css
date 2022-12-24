@@ -1,0 +1,96 @@
+.cardContainer {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.titlecontainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 1rem 0;
+}
+
+.title {
+    width: 291px;
+    height: 61px;
+    font-family: 'Plus Jakarta Sans';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 40px;
+    line-height: 61px;
+
+}
+
+.border {
+    margin-top: 1rem;
+}
+
+.card {
+    width: 366px;
+    height: 536px;
+    background: #FFFFFF;
+    border: 1px solid #DBDBDB;
+    box-shadow: 0px 4px 34px rgba(56, 55, 55, 0.12);
+    border-radius: 14px;
+    margin: 1rem;
+}
+
+.cardImage {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.name {
+    font-family: 'Plus Jakarta Sans';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 61px;
+    width: 281px;
+    height: 42px;
+}
+
+.amount {
+    font-family: 'Plus Jakarta Sans';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 61px;
+    width: 281px;
+    height: 42px;
+    margin-bottom: 1rem;
+}
+
+.cardText {
+    font-family: 'Plus Jakarta Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 195.4%;
+    width: 299px;
+    height: 27px;
+    color: #6C6C6C;
+    margin-bottom: 1rem;
+}
+
+.infoContainer {
+    padding-left: 35px;
+}
+
+.houseinfo {
+    padding-left: 5px;
+}
+
+.extrainfo {
+
+    font-family: 'Plus Jakarta Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 195.4%;
+    color: #6C6C6C;
+    width: 288px;
+    height: 27px;
+}

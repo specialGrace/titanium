@@ -1,0 +1,161 @@
+import asyncHandler from "express-async-handler";
+import generateToken from "../utils/generateToken.mjs";
+import { User } from "../models/central.mjs";
+import bcrypt from "bcryptjs";
+import { Membership } from "../models/central.mjs";
+
+// @desc Login user
+// @route POST /api/v1/users/login
+// @access Public
+
+const login = asyncHandler(async (req, res) => {
+  const { email, password } = req.body;
+  //find the user email
+  const user = await User.scope("withPassword").findOne({
+    where: { email: email },
+  });
+
+  console.log(user, "login");
+
+  //   check for password match
+  const matchPassword = async function (passwordToBeVerified) {
+    return await bcrypt.compare(passwordToBeVerified, user.password);
+  };
+
+  //   check that email exist
+  if (user && (await matchPassword(password))) {
+    res.json({
+      id: user.id,
+      email: user.email,
+      role: user.role,
+      emailIsVerified: user.emailIsVerified,
+      token: generateToken(user.id),
+    });
+  } else {
+    res.status(401);
+    throw new Error("Invalid email or password");
+  }
+});
+
+// @desc Register user
+// @route POST /api/v1/users
+// @access Public
+
+const register = asyncHandler(async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    //check that user does not exist
+    const userExist = await User.findOne({ where: { email: email } });
+    console.log("userExist", userExist);
+    if (userExist) {
+      throw new Error("Email already exist");
+    }
+
+    //create user
+    const user = await User.create({
+      email,
+      password,
+    });
+
+    res.status(200).json({
+      status: "success",
+      user: {
+        role: user.role,
+        emailIsVerified: user.emailIsVerified,
+        id: user.id,
+        email: user.email,
+      },
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(401).json({
+      status: "fail",
+      error: err.message,
+    });
+  }
+});
+
+// @desc Get all users
+// @route GET /api/v1/users
+// @access Private - admin only
+
+const getUsers = asyncHandler(async (req, res) => {
+  //find all users
+  const users = await User.findAll({
+    include: [
+      {
+        model: Membership,
+        as: "referrals",
+      },
+    ],
+  });
+  res.json({
+    status: "success",
+    users,
+  });
+});
+
+// @desc GET user
+// @route GET /api/v1/users/:id
+// @access Private - client and admin only
+const getUser = asyncHandler(async (req, res) => {
+  const userId = req.params.id;
+  //find a user
+  const user = await User.findOne({ where: { id: userId } });
+  if (!user) {
+    res.status(404);
+    throw new Error("No user record found");
+  }
+  res.status(200).json({
+    status: "success",
+    user,
+  });
+});
+
+// @desc Update user role
+// @route PUT /api/v1/users/:id
+// @access Private - admin only
+
+const updateUserRole = asyncHandler(async (req, res) => {
+  const userId = req.params.id;
+  const { role } = req.body;
+
+  //find all users
+  const user = await User.findOne({ id: userId });
+  if (!user) {
+    res.status(404);
+    throw new Error("No user record found");
+  }
+
+  const values = {
+    role,
+  };
+  //save the updated record
+  const updatedUser = await user.update(values);
+  res.status(200).json({
+    status: "success",
+    updatedUser,
+  });
+});
+
+// @desc Delete user
+// @route DELETE /api/v1/users/:id
+// @access Private - admin only
+const deleteUser = asyncHandler(async (req, res) => {
+  const userId = req.params.id;
+  //find the user
+  const user = await User.findOne({ id: userId });
+  if (!user) {
+    res.status(404);
+    throw new Error("No user record found");
+  }
+  //remove found user
+  await user.destroy();
+  res.status(200).json({
+    status: "success",
+    message: "user removed successfully",
+  });
+});
+
+export { login, register, getUsers, updateUserRole, deleteUser, getUser };

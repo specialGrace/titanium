@@ -1,0 +1,66 @@
+.serviceContainer {
+    /* width: 1440px; */
+    width: 100%;
+    /* height: 545px; */
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+    margin-bottom: 1rem;
+    position: relative;
+
+}
+
+.serviceLeft {
+    /* width: 315px; */
+    width: 80%;
+    height: 545px;
+    background: #EEF1F8;
+    position: relative;
+}
+
+.serviceRight {
+    background: #FF7A00;
+    display: flex;
+    width: 20%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    position: relative;
+
+}
+
+.serviceTitle {
+    height: 61px;
+    font-family: 'Plus Jakarta Sans';
+    font-style: normal;
+    font-weight: 800;
+    font-size: 40px;
+    line-height: 61px;
+    color: #141D32;
+
+}
+
+.serviceText {
+    font-family: 'Plus Jakarta Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 30px;
+    text-transform: capitalize;
+    color: #6C6C6C;
+    height: 60px;
+    width: 50%;
+}
+
+.imageContainer {
+    position: absolute;
+    top: 12%;
+    right: 10%;
+}
+
+.inner {
+    margin-top: 10rem;
+    padding-left: 4rem;
+}
+
+@media (max-width: 768px) {}
